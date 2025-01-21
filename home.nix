@@ -22,6 +22,12 @@ nixpkgs.config.allowUnfree = true;
 	enable = true;
   };
 
+  programs.git = {
+	enable = true;
+	userName = "JDCombat";
+	userEmail = "bartekkozub2007@gmail.com";
+  };
+
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
