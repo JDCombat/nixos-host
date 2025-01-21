@@ -5,6 +5,12 @@
 { config, lib, pkgs, inputs, ... }:
 
 {
+	
+  nix.settings = {
+    substituters = ["https://hyprland.cachix.org"];
+    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  };
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -26,6 +32,10 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   nix.settings.experimental-features = [ "nix-command" "flakes"];
+
+
+  nix.optimise.automatic = true;
+  nix.settings.auto-optimise-store = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -94,6 +104,11 @@ home-manager = {
 	users = {
 		"jdcombat" = import ./home.nix;
 	};
+};
+
+
+programs.hyprland = {
+	enable = true;
 };
 
 
