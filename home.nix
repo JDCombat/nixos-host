@@ -20,15 +20,6 @@ nixpkgs.config.allowUnfree = true;
 
   programs.kitty = {
 	enable = true;
-	font = {
-	  name = "Sans";
-	  size = 11;
-	};
-	settings = {
-	  font_family = "Sans";
-	  adjust_line_height = 3;
-	};
-
   };
 
 
@@ -96,6 +87,7 @@ nixpkgs.config.allowUnfree = true;
 
   wayland.windowManager.hyprland = {
 	enable = true;
+	xwayland.enable = true;
     	settings = {
 		"$mod" = "SUPER";
 		"$terminal" = "kitty";
@@ -106,6 +98,16 @@ nixpkgs.config.allowUnfree = true;
 		env = [
 		  "XCURSOR_SIZE,24"
 		  "HYPRCURSOR_SIZE,24"
+		  "LIBVA_DRIVER_NAME,nvidia"
+		  "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+		  "NVD_BACKEND,direct"
+		];
+
+		exec-once = [
+			"hyprpolkitagent"
+			"dunst"
+			"waybar"
+			"vesktop"
 		];
 	
 		general = {
@@ -152,29 +154,36 @@ nixpkgs.config.allowUnfree = true;
 			"$mod SHIFT, 6, movetoworkspace, 6"
 			"$mod SHIFT, 7, movetoworkspace, 7"
 
-			"$mod SHIFT, S, exec, grim -g "$(slurp -d)" - | wl-copy"
 		];
 
 
-		bindm = "$mainMod, mouse:272, movewindow";
-		bindm = "$mainMod, mouse:273, resizewindow";
+		bindm = [
+			"$mod, mouse:272, movewindow"
+			"$mod, mouse:273, resizewindow"
+		];
 		
-		bindel = ",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
-		bindel = ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-		bindel = ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-		bindel = ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-		bindel = ",XF86MonBrightnessUp, exec, brightnessctl s 10%+";
-		bindel = ",XF86MonBrightnessDown, exec, brightnessctl s 10%-";
+		bindel = [ 
+			",XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+			",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+			",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+			",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+			",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
+			",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
+		];
 		
 		# Requires playerctl
-		bindl = ", XF86AudioNext, exec, playerctl next";
-		bindl = ", XF86AudioPause, exec, playerctl play-pause";
-		bindl = ", XF86AudioPlay, exec, playerctl play-pause";
-		bindl = ", XF86AudioPrev, exec, playerctl previous";
+		bindl = [ 
+			", XF86AudioNext, exec, playerctl next"
+			", XF86AudioPause, exec, playerctl play-pause"
+			", XF86AudioPlay, exec, playerctl play-pause"
+			", XF86AudioPrev, exec, playerctl previous"
+		];
 
 		windowrule = "opacity 0.9 0.8, ^(kitty)$";
-		windowrulev2 = "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0";
-		windowrulev2 = "suppressevent maximize, class:.*";
+		windowrulev2 = [
+			"nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+			"suppressevent maximize, class:.*"
+		];
 
 		workspace = [
 			"1, persistent:true,monitor:HDMI-A-1"
@@ -186,8 +195,8 @@ nixpkgs.config.allowUnfree = true;
 			"7, persistent:true,monitor:DP-2"
 		];
 
-		''
-		animations {
+		
+		animations = {
 		    enabled = true;
 		
 		    # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
@@ -221,13 +230,13 @@ nixpkgs.config.allowUnfree = true;
 	};
 		decoration = {
 		    rounding = 10;
-		    rounding_power = 2;
+		    #rounding_power = 2.0;
 		
 		    # Change transparency of focused and unfocused windows
 		    active_opacity = 1.0;
 		    inactive_opacity = 1.0;
 		
-		    shadow {
+		    shadow = {
 			enabled = true;
 			range = 4;
 			render_power = 3;
@@ -235,7 +244,7 @@ nixpkgs.config.allowUnfree = true;
 		    };
 		
 		    # https://wiki.hyprland.org/Configuring/Variables/#blur
-		    blur {
+		    blur = {
 			enabled = true;
 			size = 3;
 			passes = 1;
@@ -244,7 +253,7 @@ nixpkgs.config.allowUnfree = true;
 		    };
 		};
 
-		input {
+		input = {
 		    kb_layout = "pl";
 		    kb_variant = "";
 		    kb_model = "";
@@ -257,7 +266,7 @@ nixpkgs.config.allowUnfree = true;
 		
 		    force_no_accel = true;
 		
-		    touchpad {
+		    touchpad = {
 		        natural_scroll = false;
 		    };
 	};
@@ -275,7 +284,7 @@ home.pointerCursor = {
     # x11.enable = true;
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
-    size = 12;
+    size = 24;
   };
 
   gtk = {

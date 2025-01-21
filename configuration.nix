@@ -85,6 +85,7 @@
 	open = true;
 	#powerManagment.enable = false;
 	#powerManagment.finegrained = false;
+	package = pkgs.linuxPackages.nvidiaPackages.latest;
 };
 
 
@@ -111,6 +112,7 @@ home-manager = {
   	nil
 	dconf
 	git
+	nvidia-vaapi-driver
   ];
 
   fonts.packages = with pkgs; [
