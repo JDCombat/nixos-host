@@ -122,7 +122,6 @@ programs.hyprland = {
 	slurp
 	wl-clipboard
 	wofi
-	waybar
 	pavucontrol
   	nil
 	dconf
